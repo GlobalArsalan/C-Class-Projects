@@ -41,11 +41,11 @@ int main() {
     std::cin >> input;
     project1Max = input;
     while(input != project1Max || input <= 0) {
-        std::cout << "Enter the project1 max" << std::endl;
+        std::cout << "Enter the project 1 max" << std::endl;
         std::cin >> input;
         project1Max = input;
     }
-    std::cout << "Enter the project1 grade" << std::endl;
+    std::cout << "Enter the project 1 grade" << std::endl;
     std::cin >> project1Grade;
     while(project1Grade < 0 || project1Grade > project1Max) {
         std::cout << "Enter the project1 grade" << std::endl;
@@ -71,14 +71,14 @@ int main() {
     std::cin >> input;
     project3Max = input;
     while(input != project3Max || input <= 0) {
-        std::cout << "Enter the project3 max" << std::endl;
+        std::cout << "Enter the project 3 max" << std::endl;
         std::cin >> input;
         project3Max = input;
     }
     std::cout << "Enter the project3 grade" << std::endl;
     std::cin >> project3Grade;
     while(project3Grade < 0 || project3Grade > project3Max) {
-        std::cout << "Enter the project3 grade" << std::endl;
+        std::cout << "Enter the project 3 grade" << std::endl;
         std::cin >> project3Grade;
     }
     ////////////////////////////////////////////////////////
@@ -86,14 +86,14 @@ int main() {
     std::cin >> input;
     project4Max = input;
     while(input != project4Max || input <= 0) {
-        std::cout << "Enter the project4 max" << std::endl;
+        std::cout << "Enter the project 4 max" << std::endl;
         std::cin >> input;
         project4Max = input;
     }
-    std::cout << "Enter the project4 grade" << std::endl;
+    std::cout << "Enter the project 4 grade" << std::endl;
     std::cin >> project4Grade;
     while(project4Grade < 0 || project4Grade > project4Max) {
-        std::cout << "Enter the project4 grade" << std::endl;
+        std::cout << "Enter the project 4 grade" << std::endl;
         std::cin >> project4Grade;
     }
     /////////////////////////////////////////////////////////////
@@ -101,14 +101,14 @@ int main() {
     std::cin >> input;
     project5Max = input;
     while(input != project5Max || input <= 0) {
-        std::cout << "Enter the project5 max" << std::endl;
+        std::cout << "Enter the project 5 max" << std::endl;
         std::cin >> input;
         project5Max = input;
     }
-    std::cout << "Enter the project5 grade" << std::endl;
+    std::cout << "Enter the project 5 grade" << std::endl;
     std::cin >> project5Grade;
     while(project5Grade < 0 || project5Grade > project5Max) {
-        std::cout << "Enter the project5 grade" << std::endl;
+        std::cout << "Enter the project 5 grade" << std::endl;
         std::cin >> project5Grade;
     }
     //////////////////////////////Calculate Marks////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ int main() {
     } if (finalMark > project5Mark) {
         project5Mark = finalMark;
     }
-    /////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////Calculation of The Final Mark///////////////////////////////////
     double result = 0.75 * finalMark + 0.25 * midTermMark;
     double projectResult = (project1Mark + project2Mark + project3Mark + project4Mark + project5Mark) / 5.0;
     double finalResult;

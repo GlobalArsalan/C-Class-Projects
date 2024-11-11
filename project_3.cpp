@@ -1,11 +1,11 @@
 #include <iostream>
 #include <cassert>
-double powerTo(double input, int power);
-double *geometric(double a, double ratio, std::size_t cap);
-double *cross_correlation(double array0[], std::size_t cap0, double array1[], std::size_t cap1);
-std::size_t shift_duplicates(int array[], std::size_t capacity);
-void shiftLeft(int array[], std::size_t startIndex, std::size_t cap);
-void deallocate(double *&ptr, bool is_array, std::size_t capacity = 0);
+double powerTo(double input, int power); // returns input^power
+double *geometric(double a, double ratio, std::size_t cap); // returns the address of a dynamically allocated array that holds a, ar, ar^2 and so on where r is the ratio
+double *cross_correlation(double array0[], std::size_t cap0, double array1[], std::size_t cap1);//returns a dynamically allocated array where newArray[i+j] = array0[i]*array1[k]
+std::size_t shift_duplicates(int array[], std::size_t capacity);//shifts all duplicates in the array to the end and returns the number of unique elements
+void shiftLeft(int array[], std::size_t startIndex, std::size_t cap); //shifts all elements in the array to the left by 1 position starting from index startIndex
+void deallocate(double *&ptr, bool is_array, std::size_t capacity = 0);// dealocates ptr
 
 //////////////////////////////////////// Main Code
 double *geometric(double a, double ratio, std::size_t cap) {
@@ -45,30 +45,7 @@ std::size_t shift_duplicates(int array[], std::size_t capacity) {
         }
     }
     return tempCap - count;
-// std::size_t shift_duplicates(int array[], std::size_t capacity) {
-//     std::size_t unique_count = 0;
 
-//     // Iterate through the array
-//     for (std::size_t i = 0; i < capacity; ++i) {
-//         bool is_duplicate = false;
-//         // Check if array[i] is a duplicate of any previous unique elements
-//         for (std::size_t j = 0; j < unique_count; ++j) {
-//             if (array[i] == array[j]) {
-//                 is_duplicate = true;
-//                 break;
-//             }
-//         }
-//         // If it's not a duplicate, move it to the unique portion
-//         if (!is_duplicate) {
-//             int temp = array[unique_count];
-//             array[unique_count++] = array[i];
-
-
-//         } else {
-            
-//         }
-//     }
-//     return unique_count;  // Return the number of unique elements
 }
 
 
@@ -86,14 +63,14 @@ void deallocate(double *&ptr, bool is_array, std::size_t capacity) {
 }
 /////////////////////////////////// Helper Functions
 
-double powerTo(double input, int power) {
+double powerTo(double input, int power) { 
     double result  = 1;
     for(int i = 0; i < power; i++) {
         result *= input;
     }
     return result;
 }
-void shiftLeft(int array[], std::size_t startIndex ,std::size_t cap) {
+void shiftLeft(int array[], std::size_t startIndex ,std::size_t cap) { 
     for(std::size_t i = startIndex; i < cap - 1; i++) {
         array[i] = array[i + 1];
     }

@@ -2,8 +2,8 @@
 
 
 /////////////////////////////////////////Main Functions
-std::size_t length(char const *a);
-int compare(char const *str1, char const *str2);
+std::size_t length(char const *a); // returns length of C-style string
+int compare(char const *str1, char const *str2); // compares whether two strings are equal or one comes before or after the other
 
 ////////////////////////////////////////Helper Functions
 int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);
@@ -36,8 +36,8 @@ int compare(char const *str1, char const *str2) {
     return beforeOrAfter(str1, k1, str2, k2);
     
 }
-/////////////////////////////////////////////////////////////////////////////////
-int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_t k2) {
+//////////////////////////////////////Helper Functions///////////////////////////////////////////
+int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_t k2) { //determines whether str1 comes before or after str2
     char character1 = str1[k1];
     char character2 = str2[k2];
     int position1 = 0;
