@@ -7,11 +7,10 @@ int compare(char const *str1, char const *str2); // compares whether two strings
 void assign(char *str1, char const *str2);//overwrites str1 with the values of str2 so they are equal after the operation
 unsigned int distance(char const *str1, char const *str2);//returns the minimum numebr of changes needed to turn one string to the other.
 std::size_t is_sorted(char *array[], std::size_t capacity); //check if an array of strings is sorted
+void insert(char *array[], std::size_t capacity); //puts the last entry of the array into the right place lexographically
 ////////////////////////////////////////Helper Functions
 int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);
 void setToNull(char *str1);
-//////////////////////////////////The main Function
-int main();
 /////////////////////////////////////////////////Main Project
 std::size_t length(char const *a) {
     int count = 0;
@@ -75,6 +74,25 @@ std::size_t is_sorted(char *array[], std::size_t capacity) {
     }
     return capacity;
 }
+void insert(char *array[], std::size_t capacity) {
+    char *value = new char[21]{}; //all strings in this projects have length 21
+    for(int i =0; i < length(array[capacity -1]);i++) {
+        value[i] = array[capacity-1][i];
+    }
+    for(int i = capacity -2; i >= 0; i--) {
+        if(compare(value, array[i]) < 0) {
+            assign(array[i+1], array[i]);
+            if(i == 0) {
+                array[i] = value;
+                break;
+            }
+            
+        } else {
+            array[i + 1] = value;
+            break;
+        }
+    }
+}
 //////////////////////////////////////Helper Functions///////////////////////////////////////////
 int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_t k2) { //determines whether str1 comes before or after str2
     char character1 = str1[k1];
@@ -104,10 +122,4 @@ void setToNull(char *str1) { //Sets all elements in the string to \0
     for(int i = 0; i < 21; i++) { //Given that size of str1 is 21 elements
         str1[i] = '\0';
     }
-}
-////////////////////////////////////The main Function////////////////////////////////////////////////
-int main() {
-    char *array[4] = {"abc", "def", "ghi", "ekl"};
-    std::cout << is_sorted(array, 4) << std::endl;
-    return 0;
 }
