@@ -49,7 +49,7 @@ void assign(char *str1, char const *str2) {
     }
 }
 unsigned int distance(char const *str1, char const *str2) {
-    if(length(str1) == 0 || length(str2) == 0) {
+    if(length(str1) == 0 || length(str2) == 0) {//check if any string is empty
         if(length(str1) != 0) { //check which one is the empty string
             return length(str1);
         } else {
@@ -59,14 +59,11 @@ unsigned int distance(char const *str1, char const *str2) {
     if(str1[0] == str2[0]) { //check to see if the first character in both are equal
         return distance(str1 + 1, str2 + 1);
     }
-    /////////////////////////////////////////////////////////error starts here
-    //if((str1[0] != str2[0]) && (str1[1] != str2[1])) { //check to see if the first two characters are different
-        unsigned int temp1 = distance(str1 + 1, str2 + 1);//Note : check the condition, what if the string is too short?
+    //then the first two characters are different, perform as shown below
+        unsigned int temp1 = distance(str1 + 1, str2 + 1);
         unsigned int temp2 = distance(str1, str2 + 1);
         unsigned int temp3 = distance(str1 + 1, str2);
-        return (std::min(std::min(temp1, temp2), temp3));
-    // }
-    //     return (1 + distance(str1 + 1, str2 + 1)); //case where only the first letters are different
+        return 1 + (std::min(std::min(temp1, temp2), temp3));
 }
 std::size_t is_sorted(char *array[], std::size_t capacity) {
     for(int i = 0; i < capacity - 1; i++) {
