@@ -8,9 +8,11 @@ void assign(char *str1, char const *str2);//overwrites str1 with the values of s
 unsigned int distance(char const *str1, char const *str2);//returns the minimum numebr of changes needed to turn one string to the other.
 std::size_t is_sorted(char *array[], std::size_t capacity); //check if an array of strings is sorted
 void insert(char *array[], std::size_t capacity); //puts the last entry of the array into the right place lexographically
+void insertion_sort(char *array[], std::size_t capacity); //implements an insertion sort algorithm to an array of C-style strings
 ////////////////////////////////////////Helper Functions
-int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);
-void setToNull(char *str1);
+int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);//determines if str1 comes before or after str2 lexographically
+void setToNull(char *str1);//set ever character in the string to the null character
+void deallocate(char *array[], std::size_t capacity); // deallocate every pointer in the array;
 /////////////////////////////////////////////////Main Project
 std::size_t length(char const *a) {
     int count = 0;
@@ -91,6 +93,11 @@ void insert(char *array[], std::size_t capacity) {
             array[i + 1] = value;
             break;
         }
+    }
+}
+void insertion_sort(char *array[], std::size_t capacity) {
+    for(int i = 2; i <= capacity; i++) {
+        insert(array, i);
     }
 }
 //////////////////////////////////////Helper Functions///////////////////////////////////////////
