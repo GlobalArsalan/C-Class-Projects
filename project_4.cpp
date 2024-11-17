@@ -5,14 +5,17 @@
 std::size_t length(char const *a); // returns length of C-style string
 int compare(char const *str1, char const *str2); // compares whether two strings are equal or one comes before or after the other
 void assign(char *str1, char const *str2);//overwrites str1 with the values of str2 so they are equal after the operation
-unsigned int distance(char const *str1, char const *str2);//returns the minimum numebr of changes needed to turn one string to the other.
+unsigned int distance(char const *str1, char const *str2);//returns the minimum number of changes needed to turn one string to the other.
 std::size_t is_sorted(char *array[], std::size_t capacity); //check if an array of strings is sorted
 void insert(char *array[], std::size_t capacity); //puts the last entry of the array into the right place lexographically
 void insertion_sort(char *array[], std::size_t capacity); //implements an insertion sort algorithm to an array of C-style strings
+std::size_t remove_duplicates(char *array[], std::size_t capacity);
+std::size_t find(char *array[], std::size_t capacity, char const *str); //return index of str in array, if not in array, return index of string with shortest distance to str.
 ////////////////////////////////////////Helper Functions
 int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);//determines if str1 comes before or after str2 lexographically
 void setToNull(char *str1);//set ever character in the string to the null character
 void deallocate(char *array[], std::size_t capacity); // deallocate every pointer in the array;
+void shiftLeft(char *array[], std::size_t index, std::size_t capacity); //shift every element after index to the left
 /////////////////////////////////////////////////Main Project
 std::size_t length(char const *a) {
     int count = 0;
@@ -97,6 +100,38 @@ void insertion_sort(char *array[], std::size_t capacity) {
         insert(array, i);
     }
 }
+std::size_t remove_duplicates(char *array[], std::size_t capacity) {
+    std::size_t count = 0;
+    for(int i = 0; i < capacity - 1; i++) {
+        if(compare(array[i], array[i+1]) == 0) {
+            shiftLeft(array, i+1, capacity);
+            capacity--;
+            i--;
+        } else {
+            count++;
+            if(i == (capacity - 2)) { //accounts for case where last one is also unique
+                count++;
+            }
+        }
+    }
+    return count;
+}
+std::size_t find(char *array[], std::size_t capacity, char const *str) {
+    std::size_t index = 0;
+    std::size_t shortestDistance = 999; //ensures that the first distance is smaller than this since no string has a size larger than 21
+    for(int i = 0; i < capacity; i++) {
+        if(compare(array[i], str) == 0) {
+            return i;
+        } else {
+            std::size_t tempDistance = distance(str, array[i]);
+            if(tempDistance < shortestDistance) {
+                shortestDistance = tempDistance;
+                index = i;
+            }
+        }
+    }
+    return index;
+}
 //////////////////////////////////////Helper Functions///////////////////////////////////////////
 int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_t k2) { //determines whether str1 comes before or after str2
     char character1 = str1[k1];
@@ -125,5 +160,10 @@ int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_
 void setToNull(char *str1) { //Sets all elements in the string to \0
     for(int i = 0; i < 21; i++) { //Given that size of str1 is 21 elements
         str1[i] = '\0';
+    }
+}
+void shiftLeft(char *array[], std::size_t index, std::size_t capacity) {
+    for(int i = index; i < capacity -1; i++) {
+        array[i] = array[i+1];
     }
 }
