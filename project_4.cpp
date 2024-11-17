@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-
+#include "p_4_header.hpp"
 /////////////////////////////////////////Main Functions
 std::size_t length(char const *a); // returns length of C-style string
 int compare(char const *str1, char const *str2); // compares whether two strings are equal or one comes before or after the other
@@ -9,8 +9,9 @@ unsigned int distance(char const *str1, char const *str2);//returns the minimum 
 std::size_t is_sorted(char *array[], std::size_t capacity); //check if an array of strings is sorted
 void insert(char *array[], std::size_t capacity); //puts the last entry of the array into the right place lexographically
 void insertion_sort(char *array[], std::size_t capacity); //implements an insertion sort algorithm to an array of C-style strings
-std::size_t remove_duplicates(char *array[], std::size_t capacity);
+std::size_t remove_duplicates(char *array[], std::size_t capacity);//removes any duplicate strings and returns the number of unique strings
 std::size_t find(char *array[], std::size_t capacity, char const *str); //return index of str in array, if not in array, return index of string with shortest distance to str.
+void free_word_array(char** word_array); //deallocates the memory allocated for an array of character arrays by an external function 
 ////////////////////////////////////////Helper Functions
 int beforeOrAfter(char const *str1, std::size_t k1, char const *char2, std::size_t k2);//determines if str1 comes before or after str2 lexographically
 void setToNull(char *str1);//set ever character in the string to the null character
@@ -46,10 +47,15 @@ int compare(char const *str1, char const *str2) {
     
 }
 void assign(char *str1, char const *str2) {
-    setToNull(str1);
-    for(int i = 0; i <21; i++) {//Given that str1 and str2 will have size 21
+    std::size_t lengthStr1 = length(str1);
+    std::size_t lengthStr2 = length(str2);
+    for(std::size_t i = 0; i < lengthStr2; i++) {
         str1[i] = str2[i];
     }
+    if(lengthStr1 != lengthStr2) {
+        str1[lengthStr2] = '\0';
+    }
+
 }
 unsigned int distance(char const *str1, char const *str2) {
     if(length(str1) == 0 || length(str2) == 0) {//check if any string is empty
@@ -132,6 +138,10 @@ std::size_t find(char *array[], std::size_t capacity, char const *str) {
     }
     return index;
 }
+void free_word_array(char** word_array) {
+    delete[] word_array[0];
+    delete [] word_array;
+}
 //////////////////////////////////////Helper Functions///////////////////////////////////////////
 int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_t k2) { //determines whether str1 comes before or after str2
     char character1 = str1[k1];
@@ -156,11 +166,6 @@ int beforeOrAfter(char const *str1, std::size_t k1, char const *str2, std::size_
         return 1;
     }
 
-}
-void setToNull(char *str1) { //Sets all elements in the string to \0
-    for(int i = 0; i < 21; i++) { //Given that size of str1 is 21 elements
-        str1[i] = '\0';
-    }
 }
 void shiftLeft(char *array[], std::size_t index, std::size_t capacity) {
     for(int i = index; i < capacity -1; i++) {
