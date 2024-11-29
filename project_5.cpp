@@ -135,15 +135,16 @@ class Node {
 
 // Node constructor
 Node::Node( int new_value, Node *new_next ) {
-
+  value_ = new_value;
+  next_ = new_next;
 }
  
 int Node::value() const {
-  return 0;
+  return value_;
 }
 
 Node *Node::next() const {
-  return nullptr;
+  return next_;
 }
 
 
@@ -152,7 +153,8 @@ Node *Node::next() const {
 ///////////////////////////////
 
 // Initializing constructor
-Set::Set( std::initializer_list<int> initial_values) : p_head_{nullptr}{
+Set::Set( std::initializer_list<int> initial_values) {
+  p_head_ = nullptr;
   for(int const &value : initial_values) {
     insert(value);
   }
@@ -186,8 +188,14 @@ bool Set::empty() const {
 }
 
 // Size
-size_t Set::size() const {
-  return 0;
+std::size_t Set::size() const {
+  std::size_t count = 0;
+  Node *temp = p_head_;
+  while(temp != nullptr) {
+    count++;
+    temp = temp->next();
+  }
+  return count;
 }
  
  
@@ -198,13 +206,26 @@ void Set::clear() {
  
 // Find
 Node *Set::find( int const &item ) const {
-
+  Node *temp = p_head_;
+  while(temp != nullptr) {
+    if(temp->value() == item) {
+      return temp;
+    }
+    temp = temp->next();
+  }
   return nullptr;
 }
  
 // Insert the item into the set
 std::size_t Set::insert( int const &item ) {
-  return 0;
+  if(find(item) != nullptr) {
+    return 0;
+  } else {
+    Node *newNode = new Node{item, p_head_};
+    p_head_ = newNode;
+    return 1;
+  }
+  
 }
  
 // Insert all the items in the array
