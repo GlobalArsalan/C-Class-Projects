@@ -255,7 +255,11 @@ std::size_t Set::insert( int const &item ) {
 std::size_t Set::insert( int         const array[],
                          std::size_t const begin,
                          std::size_t const end ) {
-  return 0;
+  std::size_t count = 0;
+  for(std::size_t i = begin; i < end; i++) {
+    count += this->insert(array[i]);
+  }  
+  return count;                       
 }
 
  
