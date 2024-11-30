@@ -176,7 +176,7 @@ Set::Set( Set const &orig ) {
 // Move constructor
 Set::Set( Set &&orig ) {
   std::swap(this->p_head_, orig.p_head_);
-}
+} //this inverts the order (problem?)
  
 // Copy assignment
 Set &Set::operator=( Set const &orig ) {
@@ -189,13 +189,13 @@ Set &Set::operator=( Set const &orig ) {
     }
     return *this;
   }
-}
+} //this inverts the order (problem?) 
 
 // Move assignment
 Set &Set::operator=( Set &&orig ) {
   std::swap(this->p_head_, orig.p_head_);
   return *this;
-}
+} //this moves over the same order
  
 // Empty
 bool Set::empty() const {
@@ -249,7 +249,6 @@ std::size_t Set::insert( int const &item ) {
     p_head_ = newNode;
     return 1;
   }
-  
 }
  
 // Insert all the items in the array
