@@ -258,15 +258,33 @@ std::size_t Set::insert( int         const array[],
   std::size_t count = 0;
   for(std::size_t i = begin; i < end; i++) {
     count += this->insert(array[i]);
-  }  
-  return count;                       
+  }
+  return count;
 }
 
  
 // Remove the item from the set and
 // return the number of items removed.
 std::size_t Set::erase( int const &item ) {
-  return 0;
+  Node *nodeToDelete = this->find(item);
+  if(nodeToDelete == nullptr) {
+    return 0;
+  } else {
+    Node *nodeBeforeDelete = this->p_head_;
+    if(nodeBeforeDelete == nodeToDelete) {
+      this->p_head_ = nodeToDelete->next();
+      delete nodeToDelete;
+      nodeToDelete = nullptr;  
+    } else {
+      while(nodeBeforeDelete->next() != nodeToDelete) {
+        nodeBeforeDelete = nodeBeforeDelete->next();
+      }
+      nodeBeforeDelete->next_ = nodeToDelete->next();
+      delete nodeToDelete;
+      nodeToDelete = nullptr;
+    }
+    return 1;
+  }
 }
  
 // Move any items from 'other', whose values
@@ -275,6 +293,34 @@ std::size_t Set::erase( int const &item ) {
 // in both sets, in both sets. 
 std::size_t Set::merge( Set &other ) {
   std::size_t count{ 0 };
+  Node *otherNodeBeingChecked;
+  Node *behindNodeBeingChecked;
+  Node *thisNodeBeingChecked;
+  bool existsInBoth = 0;
+  for(otherNodeBeingChecked = other.p_head_; otherNodeBeingChecked != nullptr;) {
+    for(thisNodeBeingChecked = this->p_head_; thisNodeBeingChecked !=nullptr; thisNodeBeingChecked = thisNodeBeingChecked->next()) {
+      if(otherNodeBeingChecked->value() == thisNodeBeingChecked->value()) {
+        existsInBoth = 1;
+        otherNodeBeingChecked = otherNodeBeingChecked ->next();
+        break;
+      }
+    }
+    if (!existsInBoth) {
+      count++;
+      if(otherNodeBeingChecked == other.p_head_) {
+        //code for when the merging node is first in other
+        Node* temp = otherNodeBeingChecked;
+        other.p_head_ = otherNodeBeingChecked->next();
+        temp->next_ = this->p_head_->next();
+        this->p_head_ =temp;
+        otherNodeBeingChecked =other.p_head_;
+      } else {
+        //code for when the merging node is not first in other
+      }
+      
+    }
+    existsInBoth = 0;
+  }
   return 0;
 }
 
