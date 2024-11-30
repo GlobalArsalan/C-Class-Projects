@@ -167,19 +167,33 @@ Set::~Set() {
  
 // Copy constructor
 Set::Set( Set const &orig ) {
+  p_head_ = nullptr;
+  for(Node *temp = orig.p_head_; temp != nullptr; temp = temp->next()) {
+    this->insert(temp->value());
+  }
 }
 
 // Move constructor
 Set::Set( Set &&orig ) {
+  std::swap(this->p_head_, orig.p_head_);
 }
  
 // Copy assignment
 Set &Set::operator=( Set const &orig ) {
-  return *this;
+  if (this == &orig) {
+    return *this;
+  } else {
+    this->clear();
+    for(Node *temp = orig.p_head_; temp != nullptr; temp = temp->next()) {
+      this->insert(temp->value());
+    }
+    return *this;
+  }
 }
 
 // Move assignment
 Set &Set::operator=( Set &&orig ) {
+  std::swap(this->p_head_, orig.p_head_);
   return *this;
 }
  
