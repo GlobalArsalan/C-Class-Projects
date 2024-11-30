@@ -162,6 +162,7 @@ Set::Set( std::initializer_list<int> initial_values) {
 
 // Destructor
 Set::~Set() {
+  this->clear();
 }
  
 // Copy constructor
@@ -201,6 +202,15 @@ std::size_t Set::size() const {
  
 // Clear
 void Set::clear() {
+  Node *traverseNode = p_head_;
+  Node* deleteNode;
+  while(traverseNode != nullptr) {
+    deleteNode = traverseNode;
+    traverseNode = traverseNode->next();
+    delete deleteNode;
+  } 
+  deleteNode = nullptr;
+  p_head_ = nullptr;
 
 }
  
