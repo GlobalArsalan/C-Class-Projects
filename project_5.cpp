@@ -175,8 +175,9 @@ Set::Set( Set const &orig ) {
 
 // Move constructor
 Set::Set( Set &&orig ) {
+  p_head_ = nullptr;
   std::swap(this->p_head_, orig.p_head_);
-} //this inverts the order (problem?)
+}
  
 // Copy assignment
 Set &Set::operator=( Set const &orig ) {
@@ -311,55 +312,99 @@ std::size_t Set::merge( Set &other ) {
         //code for when the merging node is first in other
         Node* temp = otherNodeBeingChecked;
         other.p_head_ = otherNodeBeingChecked->next();
-        temp->next_ = this->p_head_->next();
+        temp->next_ = this->p_head_;
         this->p_head_ =temp;
         otherNodeBeingChecked =other.p_head_;
+        temp = nullptr;
       } else {
         //code for when the merging node is not first in other
+        //need to make a follower node
+        behindNodeBeingChecked = other.p_head_;
+        while(behindNodeBeingChecked->next() != otherNodeBeingChecked) {
+          behindNodeBeingChecked = behindNodeBeingChecked->next();
+        }
+        Node* temp =otherNodeBeingChecked;
+        behindNodeBeingChecked->next_ = otherNodeBeingChecked->next();
+        temp->next_ = this->p_head_;
+        this->p_head_ = temp;
+        otherNodeBeingChecked = behindNodeBeingChecked->next();
+        temp = nullptr;
       }
       
     }
     existsInBoth = 0;
   }
-  return 0;
+  return count;
 }
 
   //////////////////////
  /// Set operations ///
 //////////////////////
 Set &Set::operator|=( Set const &other ) {
+  for(Node *temp = other.p_head_; temp != nullptr; temp = temp->next()) {
+    this->insert(temp->value());
+  }
   return *this;
 }
  
 Set &Set::operator&=( Set const &other ) {
+  for(Node* temp = this->p_head_; temp != nullptr;) {
+    if(other.find(temp->value()) == nullptr) {
+      std::size_t num = temp->value();
+      temp = temp->next();
+      this->erase(num);
+    }  else {
+      temp = temp->next();
+    }  
+  }
   return *this;
 }
  
 Set &Set::operator^=( Set const &other ) {
+  for(Node* temp = other.p_head_; temp != nullptr;) {
+    if(this->find(temp->value()) != nullptr) {
+      std::size_t num = temp->value();
+      temp = temp->next();
+      this->erase(num);
+    } else {
+      this->insert(temp->value());
+      temp = temp->next();
+    }
+  }
   return *this;
 }
  
 Set &Set::operator-=( Set const &other ) {
+  // if(other.p_head_ == nullptr) {
+  //   return *this;
+  // }
+  for(Node* temp = other.p_head_; temp != nullptr; temp = temp->next()) {
+    this->erase(temp->value());
+  }  
   return *this;
 }
  
 Set Set::operator|( Set const &other ) const {
-  Set result{};
+  Set result{*this};
+  result |= other;
   return result;
 }
  
 Set Set::operator&( Set const &other ) const {
-  Set result{};
+  Set result{*this};
+  result &= other;
   return result;
 }
  
 Set Set::operator^( Set const &other ) const {
-  Set result{};
+  Set result{*this};
+  result ^= other;
   return result;
 }
  
 Set Set::operator-( Set const &other ) const {
-  Set result{};
+  Set result{*this};
+  result -= other;
   return result;
 }
  
@@ -368,27 +413,43 @@ Set Set::operator-( Set const &other ) const {
 // all entries in the 'other' set are
 // also in this set.
 bool Set::operator>=( Set const &other ) const {
-  return false;
-}
+  bool isSuperSet = true;
+  for(Node* temp = other.p_head_; temp != nullptr; temp = temp->next()) {
+    if(this->find(temp->value()) == nullptr) {
+      isSuperSet = false;
+      break;
+    }
+  }
+  return isSuperSet;
+}  
  
 bool Set::operator<=( Set const &other ) const {
-  return false;
+  return (other >= *this);
 }
  
 bool Set::operator>( Set const &other ) const {
-  return false;
+  if(*this >= other) {
+    if(this->size() == other.size()) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
 }
  
 bool Set::operator<( Set const &other ) const {
+  return (other > *this);
   return false;
 }
  
 bool Set::operator==( Set const &other ) const {
-  return false;
+  return(other >= *this && *this >= other);
 }
  
 bool Set::operator!=( Set const &other ) const {
-  return false;
+  return !(*this == other);
 }
 
 
